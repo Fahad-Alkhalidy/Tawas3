@@ -5,12 +5,11 @@ import { enterDemoSession } from '../utils/demoSession'
 import type { UserRole } from '../types'
 import { BrandLogo } from './BrandLogo'
 
-const demoHeaderRoles: UserRole[] = ['admin', 'company', 'customer']
+const demoHeaderRoles = ['admin', 'company'] as const satisfies readonly UserRole[]
 
-const demoRoleLabels: Record<UserRole, string> = {
+const demoRoleLabels: Record<(typeof demoHeaderRoles)[number], string> = {
   admin: 'Admin',
   company: 'Company',
-  customer: 'Customer',
 }
 
 export function AppShell() {
@@ -41,7 +40,7 @@ export function AppShell() {
           ? [{ to: '/customer/browse', label: 'Directory' }]
           : []
 
-  const enterAs = (target: UserRole) => {
+  const enterAs = (target: (typeof demoHeaderRoles)[number]) => {
     enterDemoSession(setRole, target, navigate)
   }
 
@@ -58,7 +57,7 @@ export function AppShell() {
     }
   }, [location.pathname, clearSession])
 
-  const roleBtnClass = (target: UserRole) =>
+  const roleBtnClass = (target: (typeof demoHeaderRoles)[number]) =>
     `text-xs px-2.5 py-1.5 rounded-md transition-colors ${
       role === target
         ? 'bg-teal/30 text-white shadow-card'

@@ -14,7 +14,7 @@ export function LandingPage() {
   }
 
   const browseBusinesses = () => {
-    enterDemoSession(setRole, 'customer', navigate)
+    enterDemoSession(setRole, 'customer', navigate, '/customer/browse')
   }
 
   return (

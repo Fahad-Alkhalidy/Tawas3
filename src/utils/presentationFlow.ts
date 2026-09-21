@@ -140,7 +140,7 @@ export function buildPresentationSteps(
       id: 'browse',
       order: 7,
       title: 'Customer browses directory',
-      hint: 'Customer → Directory — filter by Bahrain to see Gulf Thread listed.',
+      hint: 'Home → Browse businesses, then filter by Bahrain to see Gulf Thread listed.',
       who: 'customer',
       done: flags.listed,
     },

@@ -80,17 +80,43 @@ export function LocalizationProcessPanel({ companyId, request }: Props) {
     if (!result.ok) alert(result.reason)
   }
 
+  const fillFirstOptionsForAllSteps = () => {
+    if (isSubmitted) return
+    for (const step of steps) {
+      const options = getOptionsForStep(step, country)
+      const first = options[0]
+      if (!first) continue
+      setStepChoice(submission.id, {
+        stepOrder: step.order,
+        stepTitle: step.title,
+        interactionKey: getInteractionKeyForStep(step, country),
+        selectedOptionId: first.id,
+        selectedOptionLabel: first.label,
+      })
+    }
+    setActiveStepOrder(null)
+  }
+
   return (
     <>
       <div className="px-5 py-3 border-b border-border flex flex-wrap items-center justify-between gap-2">
         <p className="text-sm text-ink-muted">
           {country} · {steps.length} steps — choose an option for each, then submit to operations.
         </p>
-        {isSubmitted ? (
-          <Badge tone="success">Submitted to operations</Badge>
-        ) : (
-          <Badge tone="warning">{selectionByOrder.size}/{steps.length} completed</Badge>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          {!isSubmitted && (
+            <Button size="sm" variant="secondary" onClick={fillFirstOptionsForAllSteps}>
+              Demo: use first option for all
+            </Button>
+          )}
+          {isSubmitted ? (
+            <Badge tone="success">Submitted to operations</Badge>
+          ) : (
+            <Badge tone="warning">
+              {selectionByOrder.size}/{steps.length} completed
+            </Badge>
+          )}
+        </div>
       </div>
 
       <ol className="p-5 space-y-3 flex-1 overflow-y-auto max-h-[520px]">
