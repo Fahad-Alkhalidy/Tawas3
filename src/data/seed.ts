@@ -1,5 +1,7 @@
-import { GCC_COUNTRIES } from './constants'
 import type { Company, Package, RoadmapRequest, User } from '../types'
+
+/** Single demo company — fresh application waiting for admin review. */
+export const DEMO_COMPANY_ID = 'c-gulf-thread'
 
 export const seedUsers: User[] = [
   { id: 'u-admin', role: 'admin', name: 'Platform Admin', email: 'admin@tawas3.local' },
@@ -10,13 +12,11 @@ export const seedUsers: User[] = [
     email: 'noura@gulfthread.bh',
   },
   {
-    id: 'u-company-2',
-    role: 'company',
-    name: 'Omar Hassan',
-    email: 'omar@pixelforge.sa',
+    id: 'u-customer-1',
+    role: 'customer',
+    name: 'Layla Retail Group',
+    email: 'procurement@layla.co',
   },
-  { id: 'u-customer-1', role: 'customer', name: 'Layla Retail Group', email: 'procurement@layla.co' },
-  { id: 'u-customer-2', role: 'customer', name: 'Ahmed Al-Mansoori', email: 'ahmed@example.com' },
 ]
 
 export const seedPackages: Package[] = [
@@ -89,7 +89,7 @@ export const seedPackages: Package[] = [
 
 export const seedCompanies: Company[] = [
   {
-    id: 'c-gulf-thread',
+    id: DEMO_COMPANY_ID,
     userId: 'u-company-1',
     name: 'Gulf Thread Manufacturing',
     logoUrl: '',
@@ -97,61 +97,15 @@ export const seedCompanies: Company[] = [
     pitch: 'Premium apparel manufacturing for GCC retailers and private labels.',
     problemSolved: 'Reliable cut-and-sew capacity with export-ready compliance documentation.',
     targetCustomerType: 'Retail brands, distributors',
-    originCountry: 'Bahrain',
-    targetCountries: ['Bahrain', 'UAE', 'Saudi Arabia'],
-    status: 'approved',
-    packageTier: 'growth',
-    licensedCountries: ['Bahrain', 'UAE', 'Saudi Arabia'],
-    roadmapRequestsUsed: 1,
-    profileViews: 128,
-    createdAt: '2025-11-02T08:00:00.000Z',
-  },
-  {
-    id: 'c-pixelforge',
-    userId: 'u-company-2',
-    name: 'PixelForge Studio',
-    logoUrl: '',
-    domain: 'Media & Production',
-    pitch: 'Bilingual video production and campaign content for regional launches.',
-    problemSolved: 'High-quality localized video assets without flying in external crews.',
-    targetCustomerType: 'Marketing teams, agencies',
-    originCountry: 'Saudi Arabia',
-    targetCountries: ['Bahrain', 'Qatar'],
-    status: 'approved',
-    packageTier: 'enterprise',
-    licensedCountries: [...GCC_COUNTRIES],
-    roadmapRequestsUsed: 2,
-    profileViews: 94,
-    createdAt: '2025-12-10T10:30:00.000Z',
-  },
-  {
-    id: 'c-nexus-ai',
-    userId: 'u-company-2',
-    name: 'Nexus AI Solutions',
-    logoUrl: '',
-    domain: 'Technology/AI',
-    pitch: 'Enterprise AI workflow automation with Arabic NLP support.',
-    problemSolved: 'Operational automation for finance and logistics teams in regulated sectors.',
-    targetCustomerType: 'Enterprises, government contractors',
-    originCountry: 'UAE',
+    originCountry: 'United Kingdom',
     targetCountries: ['Bahrain'],
     status: 'pending',
     packageTier: null,
     licensedCountries: [],
     roadmapRequestsUsed: 0,
-    profileViews: 12,
-    createdAt: '2026-02-01T14:00:00.000Z',
+    profileViews: 0,
+    createdAt: new Date().toISOString(),
   },
 ]
 
-export const seedRoadmapRequests: RoadmapRequest[] = [
-  {
-    id: 'rr-1',
-    companyId: 'c-gulf-thread',
-    domain: 'Manufacturing',
-    targetCountry: 'Bahrain',
-    extraFactors: { companySize: 'medium', productType: 'physical', needsLocalPartner: false },
-    generatedSteps: [],
-    createdAt: '2025-11-05T09:00:00.000Z',
-  },
-]
+export const seedRoadmapRequests: RoadmapRequest[] = []

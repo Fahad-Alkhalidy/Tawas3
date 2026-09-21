@@ -7,6 +7,7 @@ import {
   seedUsers,
 } from '../data/seed'
 import { generateLocalizationRoadmap } from '../services/localizationRulesEngine'
+import { companyMarketsConfigured } from '../utils/companyAccess'
 import { allGccMarkets, marketsLimitForTier } from '../utils/tierMarkets'
 import type {
   Company,
@@ -85,6 +86,11 @@ interface AppState {
     targetCountry: GccCountry,
     extraFactors: RoadmapExtraFactors,
   ) => { ok: true; request: RoadmapRequest } | { ok: false; reason: string }
+
+  /** Create localization steps for each paid market (presentation demo). */
+  adminPrepareLocalizationForCompany: (
+    companyId: string,
+  ) => { ok: true; created: number } | { ok: false; reason: string }
 
   incrementProfileView: (companyId: string) => void
 
@@ -293,6 +299,43 @@ export const useAppStore = create<AppState>()(
         return { ok: true, request }
       },
 
+      adminPrepareLocalizationForCompany: (companyId) => {
+        const company = get().companies.find((c) => c.id === companyId)
+        if (!company) return { ok: false, reason: 'Company not found' }
+        if (company.status !== 'approved') {
+          return { ok: false, reason: 'Approve the application first.' }
+        }
+        if (!companyMarketsConfigured(company)) {
+          return {
+            ok: false,
+            reason: 'Wait until the company subscribes and confirms their market(s).',
+          }
+        }
+        const extra: RoadmapExtraFactors = {
+          companySize: 'small',
+          productType: 'physical',
+          needsLocalPartner: false,
+        }
+        let created = 0
+        for (const targetCountry of company.licensedCountries) {
+          const exists = get().roadmapRequests.some(
+            (r) => r.companyId === companyId && r.targetCountry === targetCountry,
+          )
+          if (exists) continue
+          const result = get().adminCreateRoadmapRequest(
+            companyId,
+            company.domain,
+            targetCountry,
+            extra,
+          )
+          if (result.ok) created += 1
+        }
+        if (created === 0) {
+          return { ok: true, created: 0 }
+        }
+        return { ok: true, created }
+      },
+
       incrementProfileView: (companyId) => {
         set((s) => ({
           companies: s.companies.map((c) =>
@@ -381,11 +424,11 @@ export const useAppStore = create<AppState>()(
 
       getApprovedCompanies: () => get().companies.filter((c) => c.status === 'approved'),
 
-      resetDemoData: () => set(initialState()),
+      resetDemoData: () => set({ ...initialState(), session: defaultSession }),
     }),
     {
       name: 'tawase3-mvp',
-      version: 5,
+      version: 6,
       merge: (persisted, current) => ({
         ...current,
         ...(persisted as Partial<AppState>),
@@ -394,11 +437,19 @@ export const useAppStore = create<AppState>()(
       migrate: (persisted: unknown, version) => {
         if (persisted && typeof persisted === 'object') {
           const state = persisted as {
+            users?: User[]
             companies?: Company[]
+            roadmapRequests?: RoadmapRequest[]
             localizationSubmissions?: LocalizationPlanSubmission[]
             session?: SessionState
           }
           delete state.session
+          if (version < 6) {
+            state.users = [...seedUsers]
+            state.companies = [...seedCompanies]
+            state.roadmapRequests = []
+            state.localizationSubmissions = []
+          }
           if (version < 4) {
             state.localizationSubmissions = state.localizationSubmissions ?? []
           }
