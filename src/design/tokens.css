@@ -1,0 +1,32 @@
+/**
+ * Tawas3 Design Tokens
+ * Primary: navy #342d47 · Secondary: light blue #96b7c8
+ * Type: Staatliches
+ */
+
+@theme {
+  --font-display: 'Staatliches', system-ui, sans-serif;
+  --font-body: 'Staatliches', system-ui, sans-serif;
+
+  --color-primary: #342d47;
+  --color-secondary: #96b7c8;
+
+  --color-ink: #342d47;
+  --color-ink-muted: #4f4863;
+  --color-surface: #f4efe6;
+  --color-surface-raised: #faf7f2;
+  --color-sand: #e8dfd0;
+  --color-sand-dark: #d4c9b8;
+  --color-teal: #96b7c8;
+  --color-teal-dark: #6f96ab;
+  --color-teal-soft: #eef3f7;
+  --color-terracotta: #c45c3e;
+  --color-gold: #c9a227;
+  --color-border: #c8bfb0;
+  --color-danger: #9b2c2c;
+  --color-success: #1f6b4a;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+}
