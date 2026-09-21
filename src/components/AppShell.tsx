@@ -60,15 +60,15 @@ export function AppShell() {
   }, [location.pathname, clearSession])
 
   const roleBtnClass = (target: UserRole) =>
-    `text-xs px-2.5 py-1 rounded-sm border transition-colors ${
+    `text-xs px-2.5 py-1.5 rounded-md transition-colors ${
       role === target
-        ? 'bg-teal/30 text-white border-teal/50'
-        : 'text-sand/55 border-transparent hover:text-sand/90 hover:bg-white/5'
+        ? 'bg-teal/30 text-white shadow-card'
+        : 'text-sand/55 hover:text-sand/90 hover:bg-white/8'
     }`
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="border-b border-border bg-ink text-sand">
+      <header className="bg-ink text-sand shadow-header relative z-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
           <BrandLogo onDark />
 
@@ -77,7 +77,7 @@ export function AppShell() {
               <Link
                 key={link.to}
                 to={link.to}
-                className={`text-sm px-2 py-1 rounded-sm transition-colors ${
+                className={`text-sm px-2.5 py-1.5 rounded-md transition-colors ${
                   isNavActive(link.to)
                     ? 'text-white bg-teal/30'
                     : 'text-sand/80 hover:text-white'
@@ -110,7 +110,7 @@ export function AppShell() {
       <main className="flex-1">
         <Outlet />
       </main>
-      <footer className="border-t border-border py-6 text-center text-xs text-ink-muted">
+      <footer className="py-8 text-center text-xs text-ink-muted bg-surface-raised/50 shadow-[0_-4px_24px_rgb(52_45_71_/_0.04)]">
         Tawas3 — simplify GCC applications, explore demand, and extend your reach
       </footer>
     </div>

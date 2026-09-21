@@ -45,7 +45,7 @@ export function CustomerBrowse() {
       />
 
       <div className="grid lg:grid-cols-[280px_1fr] gap-8">
-        <aside className="border border-border bg-surface-raised p-5 rounded-sm h-fit space-y-4">
+        <aside className="bg-surface-raised p-5 rounded-xl shadow-soft h-fit space-y-4">
           <div>
             <FieldLabel htmlFor="kw">Keyword</FieldLabel>
             <Input

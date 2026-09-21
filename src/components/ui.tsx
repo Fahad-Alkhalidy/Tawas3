@@ -13,13 +13,12 @@ export function Button({
   size?: 'sm' | 'md'
 }) {
   const variants = {
-    primary: 'bg-ink text-white hover:bg-ink-muted border border-ink',
-    secondary:
-      'bg-teal text-ink border border-teal-dark hover:bg-teal-dark/40',
-    ghost: 'text-ink-muted hover:text-ink hover:bg-sand/30 border border-transparent',
-    danger: 'bg-danger text-white hover:opacity-90 border border-danger',
+    primary: 'bg-ink text-white hover:bg-ink-muted shadow-card hover:shadow-soft',
+    secondary: 'bg-teal text-ink hover:bg-teal-dark/30 shadow-card',
+    ghost: 'text-ink-muted hover:text-ink hover:bg-sand/40',
+    danger: 'bg-danger text-white hover:opacity-90 shadow-card',
   }
-  const sizes = { sm: 'text-sm px-3 py-1.5 rounded-sm', md: 'text-sm px-4 py-2 rounded-sm' }
+  const sizes = { sm: 'text-sm px-3 py-1.5 rounded-md', md: 'text-sm px-4 py-2.5 rounded-md' }
   return (
     <button className={`${baseBtn} ${variants[variant]} ${sizes[size]} ${className}`} {...props} />
   )
@@ -33,15 +32,15 @@ export function Badge({
   children: ReactNode
 }) {
   const tones = {
-    neutral: 'bg-sand text-ink-muted border-border',
-    success: 'bg-teal-soft text-teal-dark border-teal/30',
-    warning: 'bg-[#f5ead6] text-[#7a5a1e] border-gold/40',
-    danger: 'bg-[#f5e6e6] text-danger border-danger/30',
-    teal: 'bg-teal text-ink border-teal-dark',
+    neutral: 'bg-sand/80 text-ink-muted shadow-card',
+    success: 'bg-teal-soft text-teal-dark',
+    warning: 'bg-[#f5ead6] text-[#7a5a1e]',
+    danger: 'bg-[#f5e6e6] text-danger',
+    teal: 'bg-teal text-ink shadow-card',
   }
   return (
     <span
-      className={`inline-flex items-center px-2 py-0.5 text-xs font-medium border rounded-sm ${tones[tone]}`}
+      className={`inline-flex items-center px-2.5 py-0.5 text-xs font-medium rounded-md ${tones[tone]}`}
     >
       {children}
     </span>
@@ -59,7 +58,7 @@ export function FieldLabel({ children, htmlFor }: { children: ReactNode; htmlFor
 export function Input({ className = '', ...props }: InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
-      className={`w-full bg-surface-raised border border-border rounded-sm px-3 py-2 text-sm text-ink placeholder:text-ink-muted/60 focus:outline-none focus:border-teal focus:ring-1 focus:ring-teal/30 ${className}`}
+      className={`w-full bg-surface-raised rounded-md px-3 py-2.5 text-sm text-ink shadow-card placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-teal/35 ${className}`}
       {...props}
     />
   )
@@ -68,7 +67,7 @@ export function Input({ className = '', ...props }: InputHTMLAttributes<HTMLInpu
 export function TextArea({ className = '', ...props }: InputHTMLAttributes<HTMLTextAreaElement>) {
   return (
     <textarea
-      className={`w-full min-h-[96px] bg-surface-raised border border-border rounded-sm px-3 py-2 text-sm text-ink placeholder:text-ink-muted/60 focus:outline-none focus:border-teal focus:ring-1 focus:ring-teal/30 ${className}`}
+      className={`w-full min-h-[96px] bg-surface-raised rounded-md px-3 py-2.5 text-sm text-ink shadow-card placeholder:text-ink-muted/60 focus:outline-none focus:ring-2 focus:ring-teal/35 ${className}`}
       {...props}
     />
   )
@@ -77,7 +76,7 @@ export function TextArea({ className = '', ...props }: InputHTMLAttributes<HTMLT
 export function Select({ className = '', children, ...props }: SelectHTMLAttributes<HTMLSelectElement>) {
   return (
     <select
-      className={`w-full bg-surface-raised border border-border rounded-sm px-3 py-2 text-sm text-ink focus:outline-none focus:border-teal focus:ring-1 focus:ring-teal/30 ${className}`}
+      className={`w-full bg-surface-raised rounded-md px-3 py-2.5 text-sm text-ink shadow-card focus:outline-none focus:ring-2 focus:ring-teal/35 ${className}`}
       {...props}
     >
       {children}
@@ -97,7 +96,7 @@ export function PageHeader({
   actions?: ReactNode
 }) {
   return (
-    <header className="flex flex-col gap-4 border-b border-border pb-6 mb-8 md:flex-row md:items-end md:justify-between">
+    <header className="flex flex-col gap-4 pb-6 mb-8 md:flex-row md:items-end md:justify-between">
       <div className="max-w-2xl">
         {eyebrow && (
           <p className="text-xs font-semibold uppercase tracking-widest text-teal mb-2">{eyebrow}</p>
@@ -112,7 +111,7 @@ export function PageHeader({
 
 export function DataTable({ children }: { children: ReactNode }) {
   return (
-    <div className="overflow-x-auto border border-border bg-surface-raised rounded-sm">
+    <div className="overflow-x-auto bg-surface-raised rounded-lg shadow-soft">
       <table className="w-full text-sm text-left">{children}</table>
     </div>
   )
@@ -120,7 +119,7 @@ export function DataTable({ children }: { children: ReactNode }) {
 
 export function EmptyState({ title, description }: { title: string; description: string }) {
   return (
-    <div className="border border-dashed border-border rounded-sm p-10 text-center bg-surface-raised/50">
+    <div className="rounded-xl p-10 text-center bg-surface-raised shadow-soft">
       <p className="font-display text-xl text-ink">{title}</p>
       <p className="mt-2 text-sm text-ink-muted max-w-md mx-auto">{description}</p>
     </div>
