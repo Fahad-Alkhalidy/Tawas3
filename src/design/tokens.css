@@ -1,12 +1,12 @@
 /**
  * Tawas3 Design Tokens
  * Primary: navy #342d47 · Secondary: light blue #96b7c8
- * Type: Staatliches
+ * Display: Staatliches · Body: DM Sans
  */
 
 @theme {
   --font-display: 'Staatliches', system-ui, sans-serif;
-  --font-body: 'Staatliches', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
 
   --color-primary: #342d47;
   --color-secondary: #96b7c8;

@@ -40,8 +40,8 @@ export function CustomerBrowse() {
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
       <PageHeader
         eyebrow="Directory"
-        title="Find a company that fits the problem"
-        description="Search companies active in a GCC market — listings appear only where they paid to operate."
+        title="Companies applying and entering the GCC"
+        description="Browse providers by industry and keyword, then filter to a specific country—Bahrain, Saudi Arabia, the UAE, and the rest of the Gulf. Listings show only where each company is licensed to operate."
       />
 
       <div className="grid lg:grid-cols-[280px_1fr] gap-8">

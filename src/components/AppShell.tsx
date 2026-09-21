@@ -1,8 +1,17 @@
 import { useEffect } from 'react'
-import { flushSync } from 'react-dom'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAppStore } from '../store/useAppStore'
+import { enterDemoSession } from '../utils/demoSession'
+import type { UserRole } from '../types'
 import { BrandLogo } from './BrandLogo'
+
+const demoHeaderRoles: UserRole[] = ['admin', 'company', 'customer']
+
+const demoRoleLabels: Record<UserRole, string> = {
+  admin: 'Admin',
+  company: 'Company',
+  customer: 'Customer',
+}
 
 export function AppShell() {
   const location = useLocation()
@@ -33,11 +42,8 @@ export function AppShell() {
           ? [{ to: '/customer/browse', label: 'Directory' }]
           : []
 
-  const enterAs = (target: 'admin' | 'company') => {
-    flushSync(() => {
-      setRole(target)
-    })
-    navigate(target === 'admin' ? '/admin' : '/company')
+  const enterAs = (target: UserRole) => {
+    enterDemoSession(setRole, target, navigate)
   }
 
   const isNavActive = (to: string) => {
@@ -53,7 +59,7 @@ export function AppShell() {
     }
   }, [location.pathname, clearSession])
 
-  const roleBtnClass = (target: 'admin' | 'company') =>
+  const roleBtnClass = (target: UserRole) =>
     `text-xs px-2.5 py-1 rounded-sm border transition-colors ${
       role === target
         ? 'bg-teal/30 text-white border-teal/50'
@@ -82,18 +88,22 @@ export function AppShell() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1 shrink-0 flex-wrap justify-end">
             {user && role && (
-              <span className="hidden lg:block text-xs text-sand/70 max-w-[120px] truncate mr-1">
+              <span className="hidden xl:block text-xs text-sand/70 max-w-[120px] truncate mr-1">
                 {user.name}
               </span>
             )}
-            <button type="button" className={roleBtnClass('admin')} onClick={() => enterAs('admin')}>
-              Admin
-            </button>
-            <button type="button" className={roleBtnClass('company')} onClick={() => enterAs('company')}>
-              Company
-            </button>
+            {demoHeaderRoles.map((target) => (
+              <button
+                key={target}
+                type="button"
+                className={roleBtnClass(target)}
+                onClick={() => enterAs(target)}
+              >
+                {demoRoleLabels[target]}
+              </button>
+            ))}
           </div>
         </div>
       </header>
@@ -101,7 +111,7 @@ export function AppShell() {
         <Outlet />
       </main>
       <footer className="border-t border-border py-6 text-center text-xs text-ink-muted">
-        Tawas3 — localization guidance &amp; marketplace for Bahrain &amp; the GCC
+        Tawas3 — simplify GCC applications, explore demand, and extend your reach
       </footer>
     </div>
   )
