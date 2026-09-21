@@ -233,7 +233,6 @@ export function AdminDashboard() {
             <DataTable>
               <thead className="bg-sand/50 text-ink-muted uppercase text-xs tracking-wide">
                 <tr>
-                  <th className="px-4 py-3 font-semibold">Name</th>
                   <th className="px-4 py-3 font-semibold">Email</th>
                   <th className="px-4 py-3 font-semibold">Status</th>
                   <th className="px-4 py-3 font-semibold text-right">Actions</th>
@@ -242,7 +241,6 @@ export function AdminDashboard() {
               <tbody className="divide-y divide-border/60">
                 {customers.map((u) => (
                   <tr key={u.id}>
-                    <td className="px-4 py-3 font-medium">{u.name}</td>
                     <td className="px-4 py-3 text-ink-muted">{u.email}</td>
                     <td className="px-4 py-3">
                       {u.restricted ? (

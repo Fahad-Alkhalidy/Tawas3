@@ -20,6 +20,36 @@ export function getDemoCompany(companies: Company[]): Company | undefined {
   return companies.find((c) => c.id === DEMO_COMPANY_ID) ?? companies[0]
 }
 
+function submissionBelongsToCompany(
+  s: LocalizationPlanSubmission,
+  companyId: string,
+  roadmapRequests: RoadmapRequest[],
+): boolean {
+  if (s.companyId === companyId) return true
+  const roadmap = roadmapRequests.find((r) => r.id === s.roadmapRequestId)
+  return roadmap?.companyId === companyId
+}
+
+function isFilingSubmitted(s: LocalizationPlanSubmission): boolean {
+  return (
+    s.submittedAt != null ||
+    s.status === 'submitted' ||
+    s.status === 'in_review' ||
+    s.status === 'completed'
+  )
+}
+
+/** Step 5 — company pressed “Submit to operations” (not when admin completes review). */
+export function hasSubmittedLocalizationFiling(
+  companyId: string,
+  submissions: LocalizationPlanSubmission[],
+  roadmapRequests: RoadmapRequest[] = [],
+): boolean {
+  return submissions.some(
+    (s) => submissionBelongsToCompany(s, companyId, roadmapRequests) && isFilingSubmitted(s),
+  )
+}
+
 export function buildPresentationSteps(
   company: Company | undefined,
   roadmapRequests: RoadmapRequest[],
@@ -39,9 +69,10 @@ export function buildPresentationSteps(
     ]
   }
 
-  const companyRoadmaps = roadmapRequests.filter((r) => r.companyId === company.id)
-  const companySubs = submissions.filter((s) => s.companyId === company.id)
-  const submitted = companySubs.some((s) => s.status === 'submitted' || s.status === 'in_review')
+  const companyId = company.id
+  const companyRoadmaps = roadmapRequests.filter((r) => r.companyId === companyId)
+  const companySubs = submissions.filter((s) => s.companyId === companyId)
+  const filed = hasSubmittedLocalizationFiling(companyId, submissions, roadmapRequests)
   const opsDone = companySubs.some((s) => s.status === 'completed')
   const listed = isListedForCustomers(company)
 
@@ -51,7 +82,7 @@ export function buildPresentationSteps(
     paid: companyHasPaid(company),
     markets: companyMarketsConfigured(company),
     stepsSent: companyRoadmaps.length > 0,
-    filed: submitted,
+    filed,
     ops: opsDone,
     listed,
   }

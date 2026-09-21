@@ -101,7 +101,7 @@ export function CompanyProfilePage() {
             <div className="mt-4 space-y-3">
               <div>
                 <FieldLabel htmlFor="cn">Your name</FieldLabel>
-                <Input id="cn" required defaultValue="Demo Customer" />
+                <Input id="cn" required placeholder="Your name or team" />
               </div>
               <div>
                 <FieldLabel htmlFor="em">Email</FieldLabel>

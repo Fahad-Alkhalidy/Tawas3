@@ -19,7 +19,6 @@ export function AppShell() {
   const session = useAppStore((s) => s.session)
   const setRole = useAppStore((s) => s.setRole)
   const clearSession = useAppStore((s) => s.clearSession)
-  const user = useAppStore((s) => s.getCurrentUser())
   const company = useAppStore((s) =>
     session.role === 'company' && session.userId ? s.getCompanyForUser(session.userId) : undefined,
   )
@@ -89,11 +88,6 @@ export function AppShell() {
           </nav>
 
           <div className="flex items-center gap-1 shrink-0 flex-wrap justify-end">
-            {user && role && (
-              <span className="hidden xl:block text-xs text-sand/70 max-w-[120px] truncate mr-1">
-                {user.name}
-              </span>
-            )}
             {demoHeaderRoles.map((target) => (
               <button
                 key={target}

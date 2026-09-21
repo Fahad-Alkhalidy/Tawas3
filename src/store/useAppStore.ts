@@ -428,7 +428,7 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: 'tawase3-mvp',
-      version: 6,
+      version: 7,
       merge: (persisted, current) => ({
         ...current,
         ...(persisted as Partial<AppState>),
@@ -449,6 +449,9 @@ export const useAppStore = create<AppState>()(
             state.companies = [...seedCompanies]
             state.roadmapRequests = []
             state.localizationSubmissions = []
+          }
+          if (version < 7) {
+            state.users = [...seedUsers]
           }
           if (version < 4) {
             state.localizationSubmissions = state.localizationSubmissions ?? []

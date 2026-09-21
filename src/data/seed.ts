@@ -4,19 +4,9 @@ import type { Company, Package, RoadmapRequest, User } from '../types'
 export const DEMO_COMPANY_ID = 'c-gulf-thread'
 
 export const seedUsers: User[] = [
-  { id: 'u-admin', role: 'admin', name: 'Platform Admin', email: 'admin@tawas3.local' },
-  {
-    id: 'u-company-1',
-    role: 'company',
-    name: 'Noura Al-Khalifa',
-    email: 'noura@gulfthread.bh',
-  },
-  {
-    id: 'u-customer-1',
-    role: 'customer',
-    name: 'Layla Retail Group',
-    email: 'procurement@layla.co',
-  },
+  { id: 'u-admin', role: 'admin', name: '', email: 'admin@demo.local' },
+  { id: 'u-company-1', role: 'company', name: '', email: 'company@demo.local' },
+  { id: 'u-customer-1', role: 'customer', name: '', email: 'customer@demo.local' },
 ]
 
 export const seedPackages: Package[] = [
