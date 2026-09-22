@@ -110,7 +110,7 @@ export function LandingPage() {
             <div className="flex justify-center md:justify-end w-full">
               <div className="relative w-full max-w-xl md:max-w-none md:w-[108%] md:-mr-[4%] h-[min(420px,48vh)] md:h-[min(520px,58vh)] overflow-hidden rounded-xl">
                 <img
-                  src="/pic.png"
+                  src="/middle-east.svg"
                   alt="Outline map of GCC member states"
                   className="absolute inset-0 w-full h-full object-cover scale-[1.22] object-center opacity-90 mix-blend-multiply contrast-[1.08]"
                   width={800}
