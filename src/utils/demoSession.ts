@@ -4,7 +4,7 @@ import type { UserRole } from '../types'
 const defaultPaths: Record<UserRole, string> = {
   admin: '/admin',
   company: '/company',
-  customer: '/customer/browse',
+  visitor: '/visitor/browse',
 }
 
 export function enterDemoSession(

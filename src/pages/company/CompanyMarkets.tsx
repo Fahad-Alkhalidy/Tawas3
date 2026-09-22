@@ -86,7 +86,7 @@ export function CompanyMarkets() {
         title="Choose your markets"
         description={
           pkg
-            ? `${pkg.name}: select exactly ${needExact} ${needExact === 1 ? 'country' : 'countries'}. Localization and customer listings apply only to these markets.`
+            ? `${pkg.name}: select exactly ${needExact} ${needExact === 1 ? 'country' : 'countries'}. Localization and directory listings apply only to these markets.`
             : undefined
         }
       />

@@ -101,7 +101,7 @@ export function LocalizationProcessPanel({ companyId, request }: Props) {
     <>
       <div className="px-5 py-3 border-b border-border flex flex-wrap items-center justify-between gap-2">
         <p className="text-sm text-ink-muted">
-          {country} · {steps.length} steps — choose an option for each, then submit to operations.
+          {country} · {steps.length} steps. Choose an option for each, then submit to operations.
         </p>
         <div className="flex flex-wrap items-center gap-2">
           {!isSubmitted && (

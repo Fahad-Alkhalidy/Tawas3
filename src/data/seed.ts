@@ -6,7 +6,7 @@ export const DEMO_COMPANY_ID = 'c-gulf-thread'
 export const seedUsers: User[] = [
   { id: 'u-admin', role: 'admin', name: '', email: 'admin@demo.local' },
   { id: 'u-company-1', role: 'company', name: '', email: 'company@demo.local' },
-  { id: 'u-customer-1', role: 'customer', name: '', email: 'customer@demo.local' },
+  { id: 'u-visitor-1', role: 'visitor', name: '', email: 'visitor@demo.local' },
 ]
 
 export const seedPackages: Package[] = [
@@ -19,7 +19,7 @@ export const seedPackages: Package[] = [
     features: [
       'Choose 1 GCC country',
       'Full localization process for that market',
-      'Customer directory listing in that country only',
+      'Directory listing in that country only',
     ],
     limits: {
       gccMarkets: 1,

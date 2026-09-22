@@ -62,7 +62,6 @@ export function CompanyOnboarding() {
       <PageHeader
         eyebrow="Business application"
         title={existing ? 'Update your application' : 'Apply to join Tawas3'}
-        description="No payment required. An admin will review this form and decide whether to approve your business for the marketplace and localization program."
         actions={
           <Link to="/company/dashboard">
             <Button variant="secondary">Back to dashboard</Button>
@@ -70,7 +69,7 @@ export function CompanyOnboarding() {
         }
       />
 
-      <form onSubmit={onSubmit} className="space-y-6 border border-border bg-surface-raised p-6 md:p-8 rounded-sm">
+      <form onSubmit={onSubmit} className="space-y-6 bg-surface-raised p-6 md:p-8 rounded-lg shadow-soft">
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <FieldLabel htmlFor="name">Company name</FieldLabel>
@@ -110,7 +109,7 @@ export function CompanyOnboarding() {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <FieldLabel htmlFor="target">Target customer type</FieldLabel>
+            <FieldLabel htmlFor="target">Target buyer type</FieldLabel>
             <Input
               id="target"
               required

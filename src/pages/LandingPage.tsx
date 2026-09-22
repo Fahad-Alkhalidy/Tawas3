@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { BrandLogo } from '../components/BrandLogo'
 import { ScrollReveal } from '../components/ScrollReveal'
 import { Button } from '../components/ui'
+import { GCC_COVERAGE_OPTIONS, PLATFORM_FEATURES } from '../data/platformFeatures'
 import { useAppStore } from '../store/useAppStore'
 import { enterDemoSession } from '../utils/demoSession'
 
@@ -14,7 +15,7 @@ export function LandingPage() {
   }
 
   const browseBusinesses = () => {
-    enterDemoSession(setRole, 'customer', navigate, '/customer/browse')
+    enterDemoSession(setRole, 'visitor', navigate, '/visitor/browse')
   }
 
   return (
@@ -31,7 +32,7 @@ export function LandingPage() {
             <ScrollReveal delay={80}>
               <div>
                 <h1 className="text-4xl md:text-5xl lg:text-6xl text-ink text-balance leading-[1.05]">
-                  Simplify how you enter the Gulf—and who finds you there.
+                  Simplify how you enter the Gulf and who finds you there.
                 </h1>
                 <p className="mt-6 text-lg text-ink-muted max-w-xl leading-relaxed">
                   Tawas3 helps you simplify business applications across the GCC, explore demand in the
@@ -53,19 +54,19 @@ export function LandingPage() {
                   <div>
                     <dt className="font-display text-2xl text-teal-dark">Apply with clarity</dt>
                     <dd className="mt-1 text-sm text-ink-muted leading-relaxed">
-                      Structured onboarding and localization guidance per market—not generic checklists.
+                      Structured onboarding and localization guidance per market, not generic checklists.
                     </dd>
                   </div>
                   <div>
                     <dt className="font-display text-2xl text-teal-dark">Choose your markets</dt>
                     <dd className="mt-1 text-sm text-ink-muted leading-relaxed">
-                      Focus on Bahrain, Saudi Arabia, the UAE, or the full GCC—where demand fits your offer.
+                      Focus on Bahrain, Saudi Arabia, the UAE, or the full GCC, where demand fits your offer.
                     </dd>
                   </div>
                   <div>
                     <dt className="font-display text-2xl text-teal-dark">Reach the right buyers</dt>
                     <dd className="mt-1 text-sm text-ink-muted leading-relaxed">
-                      Get in front of customers actively looking for providers entering their country.
+                      Get in front of visitors actively looking for providers entering their country.
                     </dd>
                   </div>
                 </dl>
@@ -84,7 +85,7 @@ export function LandingPage() {
               <p className="mt-4 text-ink-muted leading-relaxed">
                 Submit your company profile once, then work through approval, market selection, and
                 localization steps for each country you target. See where opportunity concentrates before
-                you commit—whether that is one market or several.
+                you commit, whether that is one market or several.
               </p>
               <ul className="mt-6 space-y-2.5 text-sm text-ink-muted">
                 <li className="flex gap-2">
@@ -106,14 +107,18 @@ export function LandingPage() {
             </div>
           </ScrollReveal>
           <ScrollReveal className="order-1 md:order-2" delay={120}>
-            <div className="flex justify-center md:justify-end">
-              <div className="rounded-xl overflow-hidden shadow-elevated bg-surface-raised/80 p-3 md:p-4 max-w-lg w-full">
+            <div className="flex justify-center md:justify-end w-full">
+              <div className="relative w-full max-w-xl md:max-w-none md:w-[108%] md:-mr-[4%] h-[min(420px,48vh)] md:h-[min(520px,58vh)] overflow-hidden rounded-xl">
                 <img
                   src="/pic.png"
                   alt="Outline map of GCC member states"
-                  className="w-full h-auto rounded-lg"
+                  className="absolute inset-0 w-full h-full object-cover scale-[1.22] object-center opacity-90 mix-blend-multiply contrast-[1.08]"
                   width={800}
                   height={600}
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-br from-teal-soft/45 via-transparent to-[#f0f5f9]/65 pointer-events-none"
+                  aria-hidden
                 />
               </div>
             </div>
@@ -121,7 +126,64 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="bg-surface">
+      <section className="bg-surface border-t border-border/30">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
+          <ScrollReveal>
+            <p className="text-xs font-semibold uppercase tracking-widest text-teal mb-3">Platform</p>
+            <h2 className="text-3xl md:text-4xl text-ink text-balance max-w-2xl">
+              Choose your GCC coverage
+            </h2>
+            <p className="mt-4 text-ink-muted max-w-2xl leading-relaxed">
+              Every option below includes the full platform. You only decide how many GCC countries you
+              want to localize in and appear in for visitors.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal delay={80} className="mt-10 md:mt-12">
+            <section className="mb-10 border border-border bg-surface-raised p-6 md:p-8 rounded-sm">
+              <h2 className="font-display text-xl text-ink">What Tawas3 provides</h2>
+              <p className="mt-2 text-sm text-ink-muted max-w-2xl">
+                All plans include the same platform capabilities. Your selection only sets how many GCC
+                countries you operate in.
+              </p>
+              <ul className="mt-6 grid sm:grid-cols-2 gap-x-8 gap-y-3 text-sm text-ink-muted">
+                {PLATFORM_FEATURES.map((feature) => (
+                  <li key={feature} className="flex gap-2">
+                    <span className="text-teal shrink-0">•</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </ScrollReveal>
+
+          <ScrollReveal delay={120}>
+            <h2 className="text-xs font-semibold uppercase tracking-widest text-ink-muted mb-4">
+              Select coverage
+            </h2>
+            <div className="grid lg:grid-cols-3 gap-0 border border-border rounded-sm overflow-hidden bg-surface-raised">
+              {GCC_COVERAGE_OPTIONS.map((option, index) => (
+                <article
+                  key={option.tier}
+                  className={`p-6 md:p-8 flex flex-col ${
+                    index < GCC_COVERAGE_OPTIONS.length - 1 ? 'lg:border-r border-border' : ''
+                  } ${index > 0 ? 'border-t lg:border-t-0 border-border' : ''}`}
+                >
+                  <h3 className="font-display text-2xl text-ink">{option.label}</h3>
+                  <p className="mt-3 text-sm text-ink-muted leading-relaxed flex-1">
+                    {option.description}
+                  </p>
+                  <Button className="mt-8 w-full" onClick={startCompanyApplication}>
+                    Select
+                  </Button>
+                </article>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      <section className="bg-surface-raised">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24 grid md:grid-cols-2 gap-10 md:gap-16 items-center">
           <ScrollReveal delay={80}>
             <div className="flex justify-center md:justify-start">
@@ -138,12 +200,12 @@ export function LandingPage() {
           </ScrollReveal>
           <ScrollReveal delay={160}>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-widest text-teal mb-3">For customers</p>
+              <p className="text-xs font-semibold uppercase tracking-widest text-teal mb-3">For visitors</p>
               <h2 className="text-3xl md:text-4xl text-ink text-balance">
                 Browse companies entering the GCC
               </h2>
               <p className="mt-4 text-ink-muted leading-relaxed">
-                Discover providers expanding into the Gulf—filter by industry, keyword, or a specific
+                Discover providers expanding into the Gulf. Filter by industry, keyword, or a specific
                 country such as Bahrain, Saudi Arabia, or the UAE. Listings reflect where each company
                 is actively applying and licensed to serve.
               </p>

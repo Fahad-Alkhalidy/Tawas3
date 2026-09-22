@@ -1,4 +1,4 @@
-export type UserRole = 'admin' | 'company' | 'customer'
+export type UserRole = 'admin' | 'company' | 'visitor'
 
 export type CompanyStatus = 'pending' | 'approved' | 'rejected' | 'suspended'
 
@@ -32,7 +32,7 @@ export interface User {
 }
 
 export interface PackageLimits {
-  /** GCC markets covered for localization + customer directory visibility */
+  /** GCC markets covered for localization + visitor directory visibility */
   gccMarkets: number
   featured: boolean
   topFeatured: boolean

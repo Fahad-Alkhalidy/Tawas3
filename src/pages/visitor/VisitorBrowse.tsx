@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import { DOMAINS, GCC_COUNTRIES } from '../../data/constants'
 import { useAppStore } from '../../store/useAppStore'
 import type { CompanyDomain, GccCountry } from '../../types'
-import { isListedForCustomers, isListedInCountry } from '../../utils/companyAccess'
+import { isListedForVisitors, isListedInCountry } from '../../utils/companyAccess'
 import { Badge, EmptyState, FieldLabel, Input, PageHeader, Select } from '../../components/ui'
 
-export function CustomerBrowse() {
+export function VisitorBrowse() {
   const companies = useAppStore((s) => s.companies)
   const packages = useAppStore((s) => s.packages)
-  const listed = useMemo(() => companies.filter(isListedForCustomers), [companies])
+  const listed = useMemo(() => companies.filter(isListedForVisitors), [companies])
 
   const [keyword, setKeyword] = useState('')
   const [domain, setDomain] = useState<CompanyDomain | 'all'>('all')
@@ -38,11 +38,7 @@ export function CustomerBrowse() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-      <PageHeader
-        eyebrow="Directory"
-        title="Companies applying and entering the GCC"
-        description="Browse providers by industry and keyword, then filter to a specific country—Bahrain, Saudi Arabia, the UAE, and the rest of the Gulf. Listings show only where each company is licensed to operate."
-      />
+      <PageHeader title="Businesses entering the GCC" />
 
       <div className="grid lg:grid-cols-[280px_1fr] gap-8">
         <aside className="bg-surface-raised p-5 rounded-xl shadow-soft h-fit space-y-4">
@@ -94,7 +90,7 @@ export function CustomerBrowse() {
                 return (
                   <li key={c.id}>
                     <Link
-                      to={`/customer/company/${c.id}`}
+                      to={`/visitor/company/${c.id}`}
                       className="block border border-border bg-surface-raised p-5 rounded-sm hover:border-teal transition-colors group"
                     >
                       <div className="flex flex-wrap items-start justify-between gap-2">

@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { AppShell } from './components/AppShell'
 import { RoleGate } from './components/RoleGate'
 import { LandingPage } from './pages/LandingPage'
@@ -8,8 +8,13 @@ import { CompanyOnboarding } from './pages/company/CompanyOnboarding'
 import { CompanyPricing } from './pages/company/CompanyPricing'
 import { CompanyMarkets } from './pages/company/CompanyMarkets'
 import { ApprovedCompanyGate } from './components/ApprovedCompanyGate'
-import { CustomerBrowse } from './pages/customer/CustomerBrowse'
-import { CompanyProfilePage } from './pages/customer/CompanyProfilePage'
+import { VisitorBrowse } from './pages/visitor/VisitorBrowse'
+import { CompanyProfilePage } from './pages/visitor/CompanyProfilePage'
+
+function LegacyCustomerCompanyRedirect() {
+  const { id } = useParams<{ id: string }>()
+  return <Navigate to={id ? `/visitor/company/${id}` : '/visitor/browse'} replace />
+}
 
 export default function App() {
   return (
@@ -62,18 +67,20 @@ export default function App() {
               </RoleGate>
             }
           />
+          <Route path="customer/browse" element={<Navigate to="/visitor/browse" replace />} />
+          <Route path="customer/company/:id" element={<LegacyCustomerCompanyRedirect />} />
           <Route
-            path="customer/browse"
+            path="visitor/browse"
             element={
-              <RoleGate allow="customer">
-                <CustomerBrowse />
+              <RoleGate allow="visitor">
+                <VisitorBrowse />
               </RoleGate>
             }
           />
           <Route
-            path="customer/company/:id"
+            path="visitor/company/:id"
             element={
-              <RoleGate allow="customer">
+              <RoleGate allow="visitor">
                 <CompanyProfilePage />
               </RoleGate>
             }

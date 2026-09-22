@@ -64,8 +64,8 @@ interface AppState {
     > & { id?: string },
   ) => Company
 
-  setCustomerRestricted: (userId: string, restricted: boolean) => void
-  removeCustomer: (userId: string) => void
+  setVisitorRestricted: (userId: string, restricted: boolean) => void
+  removeVisitor: (userId: string) => void
 
   updatePackage: (packageId: string, patch: Partial<Pick<Package, 'name' | 'price' | 'features'>>) => void
 
@@ -116,7 +116,7 @@ const defaultSession: SessionState = { role: null, userId: null }
 function roleToUserId(role: UserRole): string {
   if (role === 'admin') return 'u-admin'
   if (role === 'company') return 'u-company-1'
-  return 'u-customer-1'
+  return 'u-visitor-1'
 }
 
 function initialState() {
@@ -202,17 +202,17 @@ export const useAppStore = create<AppState>()(
         return created
       },
 
-      setCustomerRestricted: (userId, restricted) => {
+      setVisitorRestricted: (userId, restricted) => {
         set((s) => ({
           users: s.users.map((u) =>
-            u.id === userId && u.role === 'customer' ? { ...u, restricted } : u,
+            u.id === userId && u.role === 'visitor' ? { ...u, restricted } : u,
           ),
         }))
       },
 
-      removeCustomer: (userId) => {
+      removeVisitor: (userId) => {
         set((s) => ({
-          users: s.users.filter((u) => u.id !== userId || u.role !== 'customer'),
+          users: s.users.filter((u) => u.id !== userId || u.role !== 'visitor'),
         }))
       },
 
@@ -428,7 +428,7 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: 'tawase3-mvp',
-      version: 7,
+      version: 8,
       merge: (persisted, current) => ({
         ...current,
         ...(persisted as Partial<AppState>),
@@ -451,6 +451,9 @@ export const useAppStore = create<AppState>()(
             state.localizationSubmissions = []
           }
           if (version < 7) {
+            state.users = [...seedUsers]
+          }
+          if (version < 8) {
             state.users = [...seedUsers]
           }
           if (version < 4) {

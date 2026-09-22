@@ -29,7 +29,7 @@ export function isListedInCountry(c: Company, country: GccCountry): boolean {
   )
 }
 
-/** Shown anywhere in the customer directory (at least one paid market). */
-export function isListedForCustomers(c: Company): boolean {
+/** Shown anywhere in the visitor directory (at least one paid market). */
+export function isListedForVisitors(c: Company): boolean {
   return c.status === 'approved' && companyMarketsConfigured(c)
 }

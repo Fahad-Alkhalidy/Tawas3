@@ -36,8 +36,8 @@ export function AppShell() {
       ? [{ to: '/admin', label: 'Dashboard' }]
       : role === 'company'
         ? companyLinks
-        : role === 'customer'
-          ? [{ to: '/customer/browse', label: 'Directory' }]
+        : role === 'visitor'
+          ? [{ to: '/visitor/browse', label: 'Directory' }]
           : []
 
   const enterAs = (target: (typeof demoHeaderRoles)[number]) => {
@@ -104,7 +104,7 @@ export function AppShell() {
         <Outlet />
       </main>
       <footer className="py-8 text-center text-xs text-ink-muted bg-surface-raised/50 shadow-[0_-4px_24px_rgb(52_45_71_/_0.04)]">
-        Tawas3 — simplify GCC applications, explore demand, and extend your reach
+        Tawas3: simplify GCC applications, explore demand, and extend your reach
       </footer>
     </div>
   )

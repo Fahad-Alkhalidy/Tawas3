@@ -7,13 +7,13 @@ import { STATUS_LABELS } from '../../data/constants'
 import {
   companyMarketsConfigured,
   companyHasPaid,
-  isListedForCustomers,
+  isListedForVisitors,
 } from '../../utils/companyAccess'
 import { buildPresentationSteps, getDemoCompany } from '../../utils/presentationFlow'
 import { enterDemoSession } from '../../utils/demoSession'
 import { Badge, Button, DataTable, EmptyState, PageHeader } from '../../components/ui'
 
-type Tab = 'overview' | 'companies' | 'customers' | 'operations'
+type Tab = 'overview' | 'companies' | 'visitors' | 'operations'
 
 export function AdminDashboard() {
   const navigate = useNavigate()
@@ -22,8 +22,8 @@ export function AdminDashboard() {
   const roadmapRequests = useAppStore((s) => s.roadmapRequests)
   const updateCompanyStatus = useAppStore((s) => s.updateCompanyStatus)
   const adminPrepareLocalizationForCompany = useAppStore((s) => s.adminPrepareLocalizationForCompany)
-  const setCustomerRestricted = useAppStore((s) => s.setCustomerRestricted)
-  const removeCustomer = useAppStore((s) => s.removeCustomer)
+  const setVisitorRestricted = useAppStore((s) => s.setVisitorRestricted)
+  const removeVisitor = useAppStore((s) => s.removeVisitor)
   const resetDemoData = useAppStore((s) => s.resetDemoData)
   const setRole = useAppStore((s) => s.setRole)
   const localizationSubmissions = useAppStore((s) => s.localizationSubmissions)
@@ -33,7 +33,7 @@ export function AdminDashboard() {
   const [reviewId, setReviewId] = useState<string | null>(DEMO_COMPANY_ID)
   const [actionMsg, setActionMsg] = useState<string | null>(null)
 
-  const customers = users.filter((u) => u.role === 'customer')
+  const visitors = users.filter((u) => u.role === 'visitor')
   const demoCompany = getDemoCompany(companies)
   const reviewCompany = reviewId ? companies.find((c) => c.id === reviewId) : undefined
 
@@ -53,7 +53,7 @@ export function AdminDashboard() {
   const restartPresentation = () => {
     resetDemoData()
     setReviewId(DEMO_COMPANY_ID)
-    setActionMsg('Presentation reset — one fresh application, step 1.')
+    setActionMsg('Presentation reset.')
     setTab('overview')
     navigate('/')
   }
@@ -61,9 +61,7 @@ export function AdminDashboard() {
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
       <PageHeader
-        eyebrow="Administration"
-        title="Presentation mode"
-        description="One example company (Gulf Thread Manufacturing), starting right after they submit their survey. Follow the steps below, then switch roles in the header."
+        title="Admin"
         actions={
           <Button variant="secondary" onClick={restartPresentation}>
             Restart presentation
@@ -82,7 +80,7 @@ export function AdminDashboard() {
           [
             ['overview', 'Walkthrough'],
             ['companies', 'Applications'],
-            ['customers', 'Customers'],
+            ['visitors', 'Visitors'],
             ['operations', 'Operations queue'],
           ] as const
         ).map(([id, label]) => (
@@ -102,15 +100,9 @@ export function AdminDashboard() {
       {tab === 'overview' && (
         <div className="space-y-6">
           {currentStep && (
-            <div className="rounded-xl bg-ink text-sand p-6 md:p-8 shadow-elevated">
-              <p className="text-xs uppercase tracking-widest text-teal/90 mb-2">Up next</p>
-              <p className="font-display text-2xl md:text-3xl">{currentStep.title}</p>
-              <p className="mt-3 text-sand/85 max-w-2xl leading-relaxed">{currentStep.hint}</p>
-              <p className="mt-4 text-xs uppercase tracking-wide text-sand/55">
-                Switch to:{' '}
-                <span className="text-sand capitalize">{currentStep.who}</span>
-              </p>
-            </div>
+            <p className="text-sm text-ink-muted mb-4">
+              Next: <span className="text-ink font-medium">{currentStep.title}</span> ({currentStep.who})
+            </p>
           )}
 
           <ol className="space-y-3">
@@ -143,10 +135,8 @@ export function AdminDashboard() {
 
       {tab === 'companies' && (
         <>
-          <p className="text-sm text-ink-muted mb-4 max-w-3xl">
-            You should see <strong className="text-ink">one</strong> pending application — Gulf Thread
-            Manufacturing. Approve it, then after they subscribe and pick Bahrain, use{' '}
-            <strong className="text-ink">Prepare localization steps</strong>.
+          <p className="text-sm text-ink-muted mb-4">
+            Demo flow: approve <strong className="text-ink">AIGENBERG Corp.</strong>, then send steps after they subscribe.
           </p>
           {companies.length === 0 ? (
             <EmptyState
@@ -201,7 +191,7 @@ export function AdminDashboard() {
                   roadmapCount={roadmapRequests.filter((r) => r.companyId === reviewCompany.id).length}
                   onApprove={() => {
                     updateCompanyStatus(reviewCompany.id, 'approved')
-                    setActionMsg('Approved — switch to Company to subscribe and choose Bahrain.')
+                    setActionMsg('Approved. Switch to Company to subscribe.')
                   }}
                   onPrepare={() => {
                     const result = adminPrepareLocalizationForCompany(reviewCompany.id)
@@ -222,13 +212,13 @@ export function AdminDashboard() {
         </>
       )}
 
-      {tab === 'customers' && (
+      {tab === 'visitors' && (
         <>
           <p className="text-sm text-ink-muted mb-4">
             Demo buyer account for the directory. Restrict or remove only if you need to show moderation.
           </p>
-          {customers.length === 0 ? (
-            <EmptyState title="No customers" description="Restart presentation to restore the demo buyer." />
+          {visitors.length === 0 ? (
+            <EmptyState title="No visitors" description="Restart presentation to restore the demo visitor account." />
           ) : (
             <DataTable>
               <thead className="bg-sand/50 text-ink-muted uppercase text-xs tracking-wide">
@@ -239,7 +229,7 @@ export function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border/60">
-                {customers.map((u) => (
+                {visitors.map((u) => (
                   <tr key={u.id}>
                     <td className="px-4 py-3 text-ink-muted">{u.email}</td>
                     <td className="px-4 py-3">
@@ -253,11 +243,11 @@ export function AdminDashboard() {
                       <Button
                         size="sm"
                         variant="secondary"
-                        onClick={() => setCustomerRestricted(u.id, !u.restricted)}
+                        onClick={() => setVisitorRestricted(u.id, !u.restricted)}
                       >
                         {u.restricted ? 'Unrestrict' : 'Restrict'}
                       </Button>
-                      <Button size="sm" variant="danger" onClick={() => removeCustomer(u.id)}>
+                      <Button size="sm" variant="danger" onClick={() => removeVisitor(u.id)}>
                         Remove
                       </Button>
                     </td>
@@ -266,16 +256,16 @@ export function AdminDashboard() {
               </tbody>
             </DataTable>
           )}
-          {demoCompany && isListedForCustomers(demoCompany) && (
+          {demoCompany && isListedForVisitors(demoCompany) && (
             <div className="mt-6">
               <Button
                 variant="secondary"
                 onClick={() => {
-                  enterDemoSession(setRole, 'customer', navigate)
+                  enterDemoSession(setRole, 'visitor', navigate)
                   setActionMsg(null)
                 }}
               >
-                Open directory as customer
+                Open directory as visitor
               </Button>
             </div>
           )}
@@ -316,7 +306,7 @@ function ApplicationReview({
           <dd className="mt-1">{company.problemSolved}</dd>
         </div>
         <div>
-          <dt className="text-ink-muted">Target customers</dt>
+          <dt className="text-ink-muted">Target buyer type</dt>
           <dd className="mt-1">{company.targetCustomerType}</dd>
         </div>
         <div>
@@ -351,7 +341,7 @@ function ApplicationReview({
           <Badge tone="success">{roadmapCount} market step pack(s) attached</Badge>
         )}
         {paid && !markets && (
-          <Badge tone="warning">Paid — markets not confirmed yet</Badge>
+          <Badge tone="warning">Paid, markets pending</Badge>
         )}
       </div>
     </div>

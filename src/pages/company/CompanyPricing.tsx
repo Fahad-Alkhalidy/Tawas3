@@ -23,10 +23,10 @@ export function CompanyPricing() {
       return
     }
     if (tier === 'enterprise') {
-      alert('Selection saved — all GCC markets are active.')
+      alert('Selection saved. All GCC markets are active.')
       navigate('/company/dashboard')
     } else {
-      alert('Selection saved — choose your GCC market(s) next.')
+      alert('Selection saved. Choose your GCC market(s) next.')
       navigate('/company/markets')
     }
   }
@@ -36,7 +36,7 @@ export function CompanyPricing() {
       <PageHeader
         eyebrow="After approval"
         title="Choose your GCC coverage"
-        description="Every option below includes the full platform. You only decide how many GCC countries you want to localize in and appear in for customers."
+        description="Every option below includes the full platform. You only decide how many GCC countries you want to localize in and appear in for visitors."
         actions={
           <Link to="/company/dashboard">
             <Button variant="secondary">Dashboard</Button>
@@ -62,7 +62,7 @@ export function CompanyPricing() {
         <ul className="mt-6 grid sm:grid-cols-2 gap-x-8 gap-y-3 text-sm text-ink-muted">
           {PLATFORM_FEATURES.map((feature) => (
             <li key={feature} className="flex gap-2">
-              <span className="text-teal shrink-0">—</span>
+              <span className="text-teal shrink-0">•</span>
               <span>{feature}</span>
             </li>
           ))}

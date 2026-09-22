@@ -3,7 +3,7 @@ import type { Company, LocalizationPlanSubmission, RoadmapRequest } from '../typ
 import {
   companyMarketsConfigured,
   companyHasPaid,
-  isListedForCustomers,
+  isListedForVisitors,
 } from './companyAccess'
 
 export type PresentationStep = {
@@ -11,7 +11,7 @@ export type PresentationStep = {
   order: number
   title: string
   hint: string
-  who: 'admin' | 'company' | 'customer'
+  who: 'admin' | 'company' | 'visitor'
   done: boolean
   current: boolean
 }
@@ -74,7 +74,7 @@ export function buildPresentationSteps(
   const companySubs = submissions.filter((s) => s.companyId === companyId)
   const filed = hasSubmittedLocalizationFiling(companyId, submissions, roadmapRequests)
   const opsDone = companySubs.some((s) => s.status === 'completed')
-  const listed = isListedForCustomers(company)
+  const listed = isListedForVisitors(company)
 
   const flags = {
     applied: true,
@@ -92,7 +92,7 @@ export function buildPresentationSteps(
       id: 'apply',
       order: 1,
       title: 'Application submitted',
-      hint: `${company.name} — survey on file, awaiting review.`,
+      hint: `${company.name}: survey on file, awaiting review.`,
       who: 'company',
       done: flags.applied,
     },
@@ -139,9 +139,9 @@ export function buildPresentationSteps(
     {
       id: 'browse',
       order: 7,
-      title: 'Customer browses directory',
-      hint: 'Home → Browse businesses, then filter by Bahrain to see Gulf Thread listed.',
-      who: 'customer',
+      title: 'Visitor browses directory',
+      hint: 'Home → Browse businesses, then filter by Bahrain to see the demo listing.',
+      who: 'visitor',
       done: flags.listed,
     },
   ]

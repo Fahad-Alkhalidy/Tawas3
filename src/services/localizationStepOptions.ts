@@ -15,7 +15,7 @@ const OPTIONS: Record<string, StepChoiceOption[]> = {
     },
     {
       id: 'bsc-closed',
-      label: 'Bahrain Shareholding Company (B.S.C.) — closed',
+      label: 'Bahrain Shareholding Company (B.S.C.), closed',
       description: 'Suitable for larger capital and multiple shareholders.',
     },
     {
@@ -26,7 +26,7 @@ const OPTIONS: Record<string, StepChoiceOption[]> = {
     {
       id: 'rep-office',
       label: 'Representative office',
-      description: 'Market research and liaison only — no commercial sales.',
+      description: 'Market research and liaison only; no commercial sales.',
     },
   ],
   'incorporation-path': [
@@ -167,7 +167,7 @@ const OPTIONS: Record<string, StepChoiceOption[]> = {
     {
       id: 'need-guidance',
       label: 'Need guidance before applying',
-      description: 'Unsure which permit applies — request ops consultation.',
+      description: 'Unsure which permit applies; request ops consultation.',
     },
   ],
   'employment-generic': [
@@ -193,7 +193,7 @@ const OPTIONS: Record<string, StepChoiceOption[]> = {
   ],
   'customs-generic': [
     { id: 'goods-import', label: 'Importing physical goods', description: 'HS classification and duty planning required.' },
-    { id: 'services-only', label: 'Services only — no imports', description: 'Minimal customs interaction expected.' },
+    { id: 'services-only', label: 'Services only, no imports', description: 'Minimal customs interaction expected.' },
   ],
   'market-generic': [
     { id: 'pilot', label: 'Pilot launch first', description: 'Soft launch before full commercial scale.' },

@@ -2,21 +2,20 @@ import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useAppStore } from '../../store/useAppStore'
-import { isListedForCustomers } from '../../utils/companyAccess'
+import { isListedForVisitors } from '../../utils/companyAccess'
 import { Badge, Button, EmptyState, FieldLabel, Input, PageHeader, TextArea } from '../../components/ui'
 
 export function CompanyProfilePage() {
   const { id } = useParams<{ id: string }>()
-  const company = useAppStore((s) => s.companies.find((c) => c.id === id && isListedForCustomers(c)))
+  const company = useAppStore((s) => s.companies.find((c) => c.id === id && isListedForVisitors(c)))
 
   const [showContact, setShowContact] = useState(false)
   const [sent, setSent] = useState(false)
 
-  // Count one view per navigation to this profile (do not depend on `company` — it changes when views increment).
   useEffect(() => {
     if (!id) return
     const c = useAppStore.getState().companies.find((x) => x.id === id)
-    if (c && isListedForCustomers(c)) useAppStore.getState().incrementProfileView(id)
+    if (c && isListedForVisitors(c)) useAppStore.getState().incrementProfileView(id)
   }, [id])
 
   if (!company) {
@@ -24,7 +23,7 @@ export function CompanyProfilePage() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-16">
         <EmptyState title="Listing unavailable" description="This company may be pending review or removed." />
         <div className="mt-6 text-center">
-          <Link to="/customer/browse">
+          <Link to="/visitor/browse">
             <Button variant="secondary">Back to directory</Button>
           </Link>
         </div>
@@ -45,7 +44,7 @@ export function CompanyProfilePage() {
         title={company.name}
         description={company.pitch}
         actions={
-          <Link to="/customer/browse">
+          <Link to="/visitor/browse">
             <Button variant="secondary">Directory</Button>
           </Link>
         }
@@ -58,7 +57,7 @@ export function CompanyProfilePage() {
         </section>
         <section className="p-6 grid sm:grid-cols-2 gap-4 text-sm">
           <div>
-            <p className="text-ink-muted">Target customers</p>
+            <p className="text-ink-muted">Target buyer type</p>
             <p className="mt-1 font-medium">{company.targetCustomerType}</p>
           </div>
           <div>
@@ -86,7 +85,7 @@ export function CompanyProfilePage() {
 
       {sent && (
         <p className="mt-4 text-sm text-success bg-teal-soft border border-teal/20 px-4 py-3 rounded-sm">
-          Introduction request recorded locally (MVP — no backend delivery).
+          Introduction request recorded locally (MVP, no backend delivery).
         </p>
       )}
 
