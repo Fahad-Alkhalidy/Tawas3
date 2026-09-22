@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import { BrandLogo } from '../components/BrandLogo'
 import { ScrollReveal } from '../components/ScrollReveal'
 import { Button } from '../components/ui'
 import { GCC_COVERAGE_OPTIONS, PLATFORM_FEATURES } from '../data/platformFeatures'
@@ -23,7 +22,6 @@ export function LandingPage() {
       <section className="pattern-gulf">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-16 md:py-24">
           <ScrollReveal>
-            <BrandLogo className="h-10 md:h-12 mb-6" linkToHome={false} />
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-teal mb-4">
               GCC · Markets · Matchmaking
             </p>

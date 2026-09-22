@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes, useParams } from 'react-router-dom'
 import { AppShell } from './components/AppShell'
+import { ScrollToTop } from './components/ScrollToTop'
 import { RoleGate } from './components/RoleGate'
 import { LandingPage } from './pages/LandingPage'
 import { AdminDashboard } from './pages/admin/AdminDashboard'
@@ -19,6 +20,7 @@ function LegacyCustomerCompanyRedirect() {
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<AppShell />}>
           <Route index element={<LandingPage />} />

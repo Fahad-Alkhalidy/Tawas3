@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useAppStore } from '../store/useAppStore'
 import { enterDemoSession } from '../utils/demoSession'
@@ -51,11 +51,36 @@ export function AppShell() {
     return location.pathname.startsWith(to)
   }
 
+  const [headerVisible, setHeaderVisible] = useState(true)
+  const lastScrollY = useRef(0)
+
   useEffect(() => {
     if (location.pathname === '/') {
       clearSession()
     }
+    setHeaderVisible(true)
+    lastScrollY.current = window.scrollY
   }, [location.pathname, clearSession])
+
+  useEffect(() => {
+    const threshold = 72
+
+    const onScroll = () => {
+      const y = window.scrollY
+      const delta = y - lastScrollY.current
+      lastScrollY.current = y
+
+      if (y <= threshold) {
+        setHeaderVisible(true)
+        return
+      }
+      if (delta > 6) setHeaderVisible(false)
+      else if (delta < -6) setHeaderVisible(true)
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [location.pathname])
 
   const roleBtnClass = (target: (typeof demoHeaderRoles)[number]) =>
     `text-xs px-2.5 py-1.5 rounded-md transition-colors ${
@@ -66,7 +91,11 @@ export function AppShell() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-ink text-sand shadow-header relative z-10">
+      <header
+        className={`fixed top-0 inset-x-0 z-50 bg-ink text-sand shadow-header transition-transform duration-300 ease-out will-change-transform ${
+          headerVisible ? 'translate-y-0' : '-translate-y-full'
+        }`}
+      >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
           <BrandLogo onDark />
 
@@ -100,7 +129,7 @@ export function AppShell() {
           </div>
         </div>
       </header>
-      <main className="flex-1">
+      <main className="flex-1 pt-14">
         <Outlet />
       </main>
       <footer className="py-8 text-center text-xs text-ink-muted bg-surface-raised/50 shadow-[0_-4px_24px_rgb(52_45_71_/_0.04)]">
